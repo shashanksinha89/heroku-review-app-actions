@@ -74,6 +74,8 @@ runs:
       if: ${{ github.event_name == 'pull_request' && github.event.action == 'synchronize' }}
       shell: bash
       run: |
+        echo "wait  10 seconds"
+        sleep 10
         export SOURCE_GET_URL=$(echo ${{ toJSON(steps.source_endpoint.outputs.SOURCE_ENDPOINT) }} | jq -r '.get')
         export OUTPUT_STREAM_URL=$(curl -X POST https://api.heroku.com/apps/$APP_NAME/builds \
         -d '{"source_blob":{"url":"'"$SOURCE_GET_URL"'", "version": "${{ github.event.pull_request.head.sha }}"}}' \
