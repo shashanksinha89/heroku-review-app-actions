@@ -57,8 +57,6 @@ runs:
       if: ${{ github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened') }}
       shell: bash
       run: |
-        echo "wait  10 seconds"
-        sleep 10
         export SOURCE_GET_URL=$(echo ${{ toJSON(steps.source_endpoint.outputs.SOURCE_ENDPOINT) }} | jq -r '.get')
         echo "source url: $SOURCE_GET_URL"
         curl -X POST https://api.heroku.com/review-apps \
@@ -72,6 +70,16 @@ runs:
         -H "Content-Type: application/json" \
         -H "Accept: application/vnd.heroku+json; version=3" \
         -H "Authorization: Bearer ${{ inputs.api-key }}"
+
+        until curl -s -X GET https://api.heroku.com/apps/$APP_NAME/review-app \
+        -H 'Accept: application/vnd.heroku+json; version=3' \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Bearer ${{ inputs.api-key }}" |jq .status |grep created
+        do
+          echo "Intial RA setup in progress..."
+          sleep 10
+        done
+        echo "Setup is complete!!!"
     - name: Create Build
       if: ${{ github.event_name == 'pull_request' && github.event.action == 'synchronize' }}
       shell: bash
