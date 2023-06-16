@@ -85,6 +85,7 @@ runs:
         -H "Content-Type: application/json" \
         -H "Authorization: Bearer ${{ inputs.api-key }}" | \
         jq -r '.output_stream_url')
+        echo "output_stream: $OUTPUT_STREAM_URL"
         curl $OUTPUT_STREAM_URL
     - name: Set Output:url
       id: output-url
