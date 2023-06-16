@@ -39,7 +39,7 @@ runs:
         -H "Accept: application/vnd.heroku+json; version=3" \
         -H "Authorization: Bearer ${{ inputs.api-key }}")
         echo ::set-output name=SOURCE_ENDPOINT::$(echo $RESPONSE | jq -r '{get: .source_blob.get_url, put: .source_blob.put_url}')
-        echo "source_url: $source_url"
+        echo "source_url: $SOURCE_ENDPOINT"
     - name: Compress Source Code
       if: ${{ github.event_name == 'pull_request' && github.event.action != 'closed' }}
       shell: bash
