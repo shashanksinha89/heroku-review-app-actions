@@ -67,6 +67,7 @@ runs:
         "branch": "${{ env.APP_NAME }}",
         "pipeline": "${{ inputs.pipeline-id }}",
         "pr_number": ${{ github.event.number }}
+        "wait_for_ci": true
         }' \
         -H "Content-Type: application/json" \
         -H "Accept: application/vnd.heroku+json; version=3" \
