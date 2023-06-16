@@ -77,7 +77,7 @@ runs:
         -H "Authorization: Bearer ${{ inputs.api-key }}" |jq .status |grep created
         do
           echo "Intial RA setup in progress..."
-          sleep 10
+          sleep 40
         done
         echo "Setup is complete!!!"
     - name: Create Build
