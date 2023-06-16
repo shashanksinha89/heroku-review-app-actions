@@ -66,7 +66,7 @@ runs:
         "source_blob": {"url": "'"$SOURCE_GET_URL"'", "version": "'"${{ github.event.pull_request.head.sha }}"'"},
         "branch": "${{ env.APP_NAME }}",
         "pipeline": "${{ inputs.pipeline-id }}",
-        "pr_number": ${{ github.event.number }}
+        "pr_number": ${{ github.event.number }},
         "wait_for_ci": true
         }' \
         -H "Content-Type: application/json" \
