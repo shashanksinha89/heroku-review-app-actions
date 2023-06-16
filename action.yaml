@@ -51,6 +51,7 @@ runs:
         export URL=$(echo ${{ toJSON(steps.source_endpoint.outputs.SOURCE_ENDPOINT) }} | jq -r '.put')
         curl $URL -X PUT -H 'Content-Type:' --data-binary @source.tar.gz
         echo "upload complete!!!"
+        echo "url: $URL"
     - name: Create App
       if: ${{ github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened') }}
       shell: bash
