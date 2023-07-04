@@ -54,7 +54,7 @@ runs:
         echo "upload complete!!!"
         echo "url: $URL"
     - name: Create App
-      if: ${{ github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened') }}
+      if: ${{ github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened') && contains(github.event.comment.body, '/deploy-backend-ra') }}
       shell: bash
       run: |
         export SOURCE_GET_URL=$(echo ${{ toJSON(steps.source_endpoint.outputs.SOURCE_ENDPOINT) }} | jq -r '.get')
