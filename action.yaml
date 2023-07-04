@@ -31,7 +31,7 @@ runs:
       run: |
         echo "APP_NAME=${{ inputs.base-name }}-pr-${{ github.event.comment.id }}" >> $GITHUB_ENV
     - name: Create Source Endpoint
-      if: ${{ github.event_name == 'comment' && contains(github.event.comment.body, '/deploy-backend-ra') }}
+      if: ${{ github.event_name == 'issue_comment' && contains(github.event.comment.body, '/deploy-backend-ra') }}
       id: source_endpoint
       shell: bash
       run: |
@@ -42,12 +42,12 @@ runs:
         echo ::set-output name=SOURCE_ENDPOINT::$(echo $RESPONSE | jq -r '{get: .source_blob.get_url, put: .source_blob.put_url}')
         echo "source_url: $SOURCE_ENDPOINT"
     - name: Compress Source Code
-      if: ${{ github.event_name == 'comment' && contains(github.event.comment.body, '/deploy-backend-ra') }}
+      if: ${{ github.event_name == 'issue_comment' && contains(github.event.comment.body, '/deploy-backend-ra') }}
       shell: bash
       run: |
         tar -czvf source.tar.gz ${{ inputs.files-glob }}
     - name: Upload Source Code
-      if: ${{ github.event_name == 'comment' && contains(github.event.comment.body, '/deploy-backend-ra') }}
+      if: ${{ github.event_name == 'issue_comment' && contains(github.event.comment.body, '/deploy-backend-ra') }}
       shell: bash
       run: |
         export URL=$(echo ${{ toJSON(steps.source_endpoint.outputs.SOURCE_ENDPOINT) }} | jq -r '.put')
@@ -55,7 +55,7 @@ runs:
         echo "upload complete!!!"
         echo "url: $URL"
     - name: Create App
-      if: ${{ github.event_name == 'comment' && contains(github.event.comment.body, '/deploy-backend-ra') }}
+      if: ${{ github.event_name == 'issue_comment' && contains(github.event.comment.body, '/deploy-backend-ra') }}
       shell: bash
       run: |
         export SOURCE_GET_URL=$(echo ${{ toJSON(steps.source_endpoint.outputs.SOURCE_ENDPOINT) }} | jq -r '.get')
@@ -82,7 +82,7 @@ runs:
         done
         echo "Setup is complete!!!"
     - name: Create Build
-      if: ${{ github.event_name == 'pull_request' && github.event.action == 'synchronize' }}
+      if: ${{ github.event_name == 'issue_comment' && contains(github.event.comment.body, '/deploy-backend-ra') }}
       shell: bash
       run: |
         echo "wait  10 seconds"
