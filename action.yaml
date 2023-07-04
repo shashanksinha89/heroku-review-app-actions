@@ -64,7 +64,7 @@ runs:
         echo "source url: $SOURCE_GET_URL"
         curl -X POST https://api.heroku.com/review-apps \
         -d '{
-        "source_blob": {"url": "'"$SOURCE_GET_URL"'", "version": "'"${{ github.event.pull_request.head.sha }}"'"},
+        "source_blob": {"url": "'"$SOURCE_GET_URL"'", "version": "'"${{ github.event.comment.commit_id }}"'"},
         "branch": "${{ env.APP_NAME }}",
         "pipeline": "${{ inputs.pipeline-id }}",
         "pr_number": ${{ github.event.number }},
@@ -91,10 +91,10 @@ runs:
         sleep 10
         export SOURCE_GET_URL=$(echo ${{ toJSON(steps.source_endpoint.outputs.SOURCE_ENDPOINT) }} | jq -r '.get')
         echo "source url: $SOURCE_GET_URL"
-        echo "head sha: "${{ github.event.pull_request.head.sha }}"" 
+        echo "head sha: "${{ github.event.comment.commit_id }}"" 
         export OUTPUT_STREAM_URL=$(curl -X POST https://api.heroku.com/apps/$APP_NAME/builds \
         -d '{
-        "source_blob": {"url": "'"$SOURCE_GET_URL"'", "version": "'"${{ github.event.pull_request.head.sha }}"'"}
+        "source_blob": {"url": "'"$SOURCE_GET_URL"'", "version": "'"${{ github.event.comment.commit_id }}"'"}
         }' \
         -H 'Accept: application/vnd.heroku+json; version=3' \
         -H "Content-Type: application/json" \
