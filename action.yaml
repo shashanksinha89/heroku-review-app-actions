@@ -31,7 +31,7 @@ runs:
       run: |
         echo "APP_NAME=${{ inputs.base-name }}-pr-${{ github.event.comment.id }}" >> $GITHUB_ENV
     - name: Create Source Endpoint
-      if: ${{ github.event_name == 'pull_request' && contains(github.event.comment.body, '/deploy-backend-ra') }}
+      if: ${{ github.event_name == 'comment' && contains(github.event.comment.body, '/deploy-backend-ra') }}
       id: source_endpoint
       shell: bash
       run: |
