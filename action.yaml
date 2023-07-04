@@ -15,6 +15,8 @@ inputs:
   base-name:
     description: "The prefix used to generate review app name. This should be the same as what you specified for the review app URL pattern in Heroku Dashboard"
     required: true
+  pr-number:
+    required: true
 
 outputs:
   url:
@@ -29,7 +31,7 @@ runs:
     - name: Generate app name
       shell: bash
       run: |
-        echo "APP_NAME=${{ inputs.base-name }}-pr-${{ github.event.comment.id }}" >> $GITHUB_ENV
+        echo "APP_NAME=${{ inputs.base-name }}-pr-${{ inputs.pr-number }}" >> $GITHUB_ENV
     - name: Create Source Endpoint
       if: ${{ github.event_name == 'issue_comment' && contains(github.event.comment.body, '/deploy-backend-ra') }}
       id: source_endpoint
@@ -65,7 +67,7 @@ runs:
         "source_blob": {"url": "'"$SOURCE_GET_URL"'", "version": "'"${{ github.event.comment.commit_id }}"'"},
         "branch": "${{ env.APP_NAME }}",
         "pipeline": "${{ inputs.pipeline-id }}",
-        "pr_number": ${{ github.event.comment.id }},
+        "pr_number": ${{ inputs.pr-number }},
         "wait_for_ci": true
         }' \
         -H "Content-Type: application/json" \
