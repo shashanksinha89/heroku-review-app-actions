@@ -96,7 +96,7 @@ runs:
       run: |
         if [[ -z "$RA_LATEST" ]]; then
           echo "Latest build already deployed!!!"
-        elif
+        else
           echo "wait  10 seconds"
           sleep 10
           export SOURCE_GET_URL=$(echo ${{ toJSON(steps.source_endpoint.outputs.SOURCE_ENDPOINT) }} | jq -r '.get')
