@@ -63,7 +63,7 @@ runs:
         -H "Content-Type: application/json" \
         -H "Authorization: Bearer ${{ inputs.api-key }}" | \
         jq -r '.status')
-        if [[ $REVIEW_APP_ID == "created" ]]; then
+        if [[ $REVIEW_APP_STATUS == "created" ]]; then
           echo "RA exists !!!"
         else
            export SOURCE_GET_URL=$(echo ${{ toJSON(steps.source_endpoint.outputs.SOURCE_ENDPOINT) }} | jq -r '.get')
