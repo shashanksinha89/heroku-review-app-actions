@@ -101,6 +101,7 @@ runs:
         echo "output_stream: $OUTPUT_STREAM_URL"
         curl -s $OUTPUT_STREAM_URL
     - name: Set Output:url
+      if: ${{ github.event_name == 'issue_comment' && contains(github.event.comment.body, '/deploy-backend-ra') }}
       id: output-url
       shell: bash
       run: echo "::set-output name=url::$(echo https://$APP_NAME.herokuapp.com)"
