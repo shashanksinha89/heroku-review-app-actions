@@ -62,7 +62,7 @@ runs:
         -H 'Accept: application/vnd.heroku+json; version=3' \
         -H "Content-Type: application/json" \
         -H "Authorization: Bearer ${{ inputs.api-key }}" | \
-        jq -r '.id')
+        jq -r '.status')
         if [[ $REVIEW_APP_ID == "created" ]]; then
           echo "RA exists !!!"
         else
