@@ -58,12 +58,14 @@ runs:
       if: ${{ github.event_name == 'issue_comment' && contains(github.event.comment.body, '/deploy-backend-ra') }}
       shell: bash
       run: |
-        export REVIEW_APP_ID=$(curl -X GET https://api.heroku.com/apps/$APP_NAME/review-app \
+        export REVIEW_APP_STATUS=$(curl -X GET https://api.heroku.com/apps/$APP_NAME/review-app \
         -H 'Accept: application/vnd.heroku+json; version=3' \
         -H "Content-Type: application/json" \
         -H "Authorization: Bearer ${{ inputs.api-key }}" | \
         jq -r '.id')
-        if [[ -n "$REVIEW_APP_ID" ]]; then
+        if [[ $REVIEW_APP_ID == "created" ]]; then
+          echo "RA exists !!!"
+        else
            export SOURCE_GET_URL=$(echo ${{ toJSON(steps.source_endpoint.outputs.SOURCE_ENDPOINT) }} | jq -r '.get')
            echo "source url: $SOURCE_GET_URL"
            curl -X POST https://api.heroku.com/review-apps \
