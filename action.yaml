@@ -94,7 +94,7 @@ runs:
       if: ${{ github.event_name == 'issue_comment' && contains(github.event.comment.body, '/deploy-backend-ra') }}
       shell: bash
       run: |
-        if [[ -z "$RA_LATEST" ]]; then
+        if [[ -n "$RA_LATEST" ]]; then
           echo "Latest build already deployed!!!"
         else
           echo "wait  10 seconds"
