@@ -63,7 +63,7 @@ runs:
         -H "Content-Type: application/json" \
         -H "Authorization: Bearer ${{ inputs.api-key }}" | \
         jq -r '.id')
-        if [[ -z "$var" ]]; then
+        if [[ -z "$REVIEW_APP_ID" ]]; then
            export SOURCE_GET_URL=$(echo ${{ toJSON(steps.source_endpoint.outputs.SOURCE_ENDPOINT) }} | jq -r '.get')
            echo "source url: $SOURCE_GET_URL"
            curl -X POST https://api.heroku.com/review-apps \
