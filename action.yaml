@@ -29,7 +29,7 @@ runs:
     - name: Generate app name
       shell: bash
       run: |
-        echo "APP_NAME=${{ inputs.base-name }}-pr-${{ github.event.issue.number }}" >> $GITHUB_ENV
+        echo "APP_NAME=${{ inputs.base-name }}-pr-${{ github.event.number }}" >> $GITHUB_ENV
     - name: Create Source Endpoint
       id: source_endpoint
       shell: bash
